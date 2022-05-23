@@ -4,8 +4,8 @@ BEGIN: 'Ingredientes';
 END: 'Disfrute!';
 BEGINRECETA: 'Instrucciones';
 
-VARNAME: [a-z]+ ;
-STRING: [a-z]+;
+VARNAME: [A-Z]+ [a-z]+ ;
+CADENA: [a-z]+ ;
 INT: [0-9]+;
 FLOAT: [0-9]+ ',' [0-9]+;
 

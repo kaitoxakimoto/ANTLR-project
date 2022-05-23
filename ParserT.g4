@@ -8,7 +8,7 @@ receta	: statement* ;
 
 declavar : linea | entero | flotante ;
 
-linea	: VARNAME 'marca' STRING ; 
+linea	: VARNAME 'marca' CADENA; 
 entero		: INT VARNAME ;
 flotante	: FLOAT 'kg de' VARNAME ;
 
@@ -19,7 +19,7 @@ ciclo: si | mientras ;
 asignacion: 'utilizaremos' declavar;
 
 suma: 'mezclar' VARNAME 'con' VARNAME;
-multiplicacion: 'agregue' VARNAME 'a' VARNAME;
+multiplicacion: 'por cada' VARNAME 'agregar' VARNAME;
 resta: 'quitar' VARNAME 'al' VARNAME;
 
 si : 'si' senlogica ',' statement* ', prosiga.' ;
