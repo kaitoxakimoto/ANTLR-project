@@ -1,7 +1,6 @@
 package MAIN;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ANTLR.ParserTBaseVisitor;
@@ -43,7 +42,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 			value = ctx.flotante().FLOAT().getText();
 		}
 		variables.put(id,value);
-		return 0;
+		return visitChildren(ctx);
 	}
 
 
@@ -98,7 +97,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 	@Override
 	public Integer visitImpresion(ParserTParser.ImpresionContext ctx) {
 		String var = ctx.VARNAME().getText();
-		System.out.printf("%s",variables.get(var));
+		System.out.printf("%s\n",variables.get(var));
 		return visitChildren(ctx);
 	}
 
@@ -108,7 +107,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 		String var1 = ctx.VARNAME(0).getText();
 		String var2 = ctx.VARNAME(1).getText();
 		float num1 = Float.parseFloat(variables.get(var1));
-		float num2 = Float.parseFloat(variables.get(var1));
+		float num2 = Float.parseFloat(variables.get(var2));
 		variables.put(var1, String.valueOf(num1+num2));
 
 		return visitChildren(ctx);
@@ -135,6 +134,9 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitSqrt(ParserTParser.SqrtContext ctx) {
+		String var1 = ctx.VARNAME().getText();
+		float num1 = Float.parseFloat(variables.get(var1));
+		variables.put(var1, String.valueOf(Math.sqrt(num1)));
 
 		return visitChildren(ctx);
 	}
@@ -154,7 +156,18 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitSi(ParserTParser.SiContext ctx) {
-		return visitChildren(ctx);
+		
+		Integer senlogica = visitSenlogica(ctx.senlogica());
+
+		if(senlogica == 1){
+			Integer i = 0;
+			for (i = 0;ctx.statement(i)!= null;i++){
+				visitStatement(ctx.statement(i));
+			}
+		}
+
+
+		return 1;
 	}
 
 
@@ -172,19 +185,34 @@ public class MyVisitor extends ParserTBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitSenlogica(ParserTParser.SenlogicaContext ctx) {
-		return visitChildren(ctx);
+		Integer valor = visitAfirmacion(ctx.afirmacion(0));
+		return valor;
 	}
 
 
 	@Override
 	public Integer visitAfirmacion(ParserTParser.AfirmacionContext ctx) {
-		return visitChildren(ctx);
+		Integer valor = 0;
+		if (ctx.mayor()!=null){
+			valor = visitMayor(ctx.mayor());
+		}
+		return valor;
 	}
 
 
 	@Override
 	public Integer visitMayor(ParserTParser.MayorContext ctx) {
-		return visitChildren(ctx);
+		String text1 = ctx.VARNAME(0).getText();
+		String text2 = ctx.VARNAME(1).getText();
+		Float var1 = Float.parseFloat(variables.get(text1));
+		Float var2 = Float.parseFloat(variables.get(text2));
+
+		
+		if (var1 > var2){
+			return 1;
+		}
+		
+		return 0;
 	}
 
 
