@@ -12,13 +12,14 @@ linea	: VARNAME 'marca' CADENA;
 entero		: INT VARNAME ;
 flotante	: FLOAT 'kg de' VARNAME ;
 
-statement : operacion | ciclo | asignacion | lectura | impresion;
+statement : operacion | ciclo | asignacion | lectura | impresion | reemplazo;
 
 operacion: suma | multiplicacion | resta | sqrt | cos | sin;
 ciclo: si | mientras ;
 asignacion: ASIGN declavar;
-lectura: INPUT declavar;
+lectura: 'sustituya' VARNAME 'por recomendacion del chef';
 impresion: OUTPUT VARNAME;
+reemplazo: 'sustituya' VARNAME 'por' VARNAME;
 
 suma: 'mezclar' VARNAME 'con' VARNAME;
 multiplicacion: 'por cada' VARNAME 'agregar' VARNAME;
